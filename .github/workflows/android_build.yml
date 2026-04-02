@@ -17,14 +17,13 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Generate Gradle Wrapper (توليد الملف المفقود)
-      run: gradle wrapper --gradle-version 8.7
+    - name: Force Install Gradle 8.4 on Server
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: '8.4'
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: Build APK
-      run: ./gradlew assembleDebug --stacktrace
+    - name: Build APK Directly (No Wrapper Needed)
+      run: gradle assembleDebug --stacktrace
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
