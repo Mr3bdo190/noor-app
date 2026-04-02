@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
+import 'screens/quran_screen.dart';
+import 'screens/prayer_screen.dart';
 import 'screens/adhkar_screen.dart';
+import 'screens/qibla_screen.dart';
 
 void main() {
   runApp(const NoorApp());
@@ -25,10 +28,7 @@ class NoorApp extends StatelessWidget {
         ),
       ),
       builder: (context, child) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: child!,
-        );
+        return Directionality(textDirection: TextDirection.rtl, child: child!);
       },
       home: const MainScreen(),
     );
@@ -47,10 +47,10 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const Center(child: Text('المصحف الشريف (قريباً)', style: TextStyle(fontSize: 20))),
-    const Center(child: Text('مواقيت الصلاة (قريباً)', style: TextStyle(fontSize: 20))),
+    const QuranScreen(),
+    const PrayerScreen(),
     const AdhkarScreen(),
-    const Center(child: Text('بوصلة القبلة (قريباً)', style: TextStyle(fontSize: 20))),
+    const QiblaScreen(),
   ];
 
   @override
