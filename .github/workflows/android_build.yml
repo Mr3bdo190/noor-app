@@ -20,15 +20,12 @@ jobs:
       run: |
         flutter create --org com.bodadroid noor_app
         
-        # 🚀 إصلاح احترافي لنسخة الكوتلن (بدون أخطاء الأصفار الزائدة)
         sed -i -E 's/id "org.jetbrains.kotlin.android" version ".*"/id "org.jetbrains.kotlin.android" version "1.9.22"/g' noor_app/android/settings.gradle
         sed -i -E "s/ext.kotlin_version = '.+'/ext.kotlin_version = '1.9.22'/g" noor_app/android/build.gradle
-        
-        # 🚀 رفع إصدار الأندرويد الأدنى لـ 21 بطريقة آمنة
         sed -i -E 's/minSdkVersion .*/minSdkVersion 21/g' noor_app/android/app/build.gradle
         
-        # إضافة التصاريح الشاملة
-        sed -i '/<application/i \    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.VIBRATE" />' noor_app/android/app/src/main/AndroidManifest.xml
+        # إضافة تصريح الإنترنت (INTERNET) والتصاريح الأخرى للمصحف والـ GPS
+        sed -i '/<application/i \    <uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.VIBRATE" />' noor_app/android/app/src/main/AndroidManifest.xml
         
         cp -r lib noor_app/
         cp pubspec.yaml noor_app/

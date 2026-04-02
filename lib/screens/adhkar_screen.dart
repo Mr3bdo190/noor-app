@@ -11,7 +11,7 @@ class AdhkarScreen extends StatefulWidget {
 class _AdhkarScreenState extends State<AdhkarScreen> {
   List<Map<String, dynamic>> _adhkar = [
     {'id': 'subhan', 'text': 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', 'count': 33, 'total': 33},
-    {'id': 'استغفار', 'text': 'أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ', 'count': 100, 'total': 100},
+    {'id': 'estghfar', 'text': 'أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ', 'count': 100, 'total': 100},
   ];
 
   @override
@@ -20,7 +20,6 @@ class _AdhkarScreenState extends State<AdhkarScreen> {
     _loadProgress();
   }
 
-  // تحميل التقدم من ذاكرة الهاتف
   _loadProgress() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -30,7 +29,6 @@ class _AdhkarScreenState extends State<AdhkarScreen> {
     });
   }
 
-  // حفظ التقدم
   _saveProgress(String id, int count) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(id, count);
@@ -42,22 +40,31 @@ class _AdhkarScreenState extends State<AdhkarScreen> {
       padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
       itemCount: _adhkar.length + 1,
       itemBuilder: (context, index) {
-        if (index == 0) return const Text('الأذكار اليومية', style: TextStyle(fontSize: 28, color: Color(0xFF38BDF8), fontWeight: FontWeight.bold));
+        if (index == 0) return const Padding(padding: EdgeInsets.only(bottom: 20), child: Text('الأذكار اليومية', style: TextStyle(fontSize: 28, color: Color(0xFF0F4C3A), fontWeight: FontWeight.bold)));
         final zikr = _adhkar[index - 1];
         final isDone = zikr['count'] == 0;
 
         return Card(
-          color: isDone ? Colors.green.withOpacity(0.1) : const Color(0xFF1E293B),
-          margin: const EdgeInsets.only(bottom: 12),
+          color: isDone ? const Color(0xFF0F4C3A).withOpacity(0.05) : Colors.white,
+          elevation: isDone ? 0 : 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            side: BorderSide(color: isDone ? Colors.green : Colors.transparent),
+          ),
+          margin: const EdgeInsets.only(bottom: 15),
           child: ListTile(
+            contentPadding: const EdgeInsets.all(15),
             onTap: isDone ? null : () {
               setState(() {
                 zikr['count']--;
                 _saveProgress(zikr['id'], zikr['count']);
               });
             },
-            title: Text(zikr['text'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 18)),
-            trailing: Text('${zikr['count']}', style: TextStyle(color: isDone ? Colors.green : const Color(0xFF38BDF8), fontWeight: FontWeight.bold, fontSize: 20)),
+            title: Text(zikr['text'], textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: isDone ? Colors.grey : const Color(0xFF0F4C3A), fontWeight: FontWeight.w600)),
+            trailing: CircleAvatar(
+              backgroundColor: isDone ? Colors.green : const Color(0xFFD4AF37),
+              child: Text(isDone ? '✓' : '${zikr['count']}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
+            ),
           ),
         );
       },
