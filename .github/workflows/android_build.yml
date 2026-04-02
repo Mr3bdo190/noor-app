@@ -19,8 +19,8 @@ jobs:
     - name: Prepare Android Manifest
       run: |
         flutter create --org com.bodadroid noor_app
-        # إضافة تصريح الموقع تلقائياً
-        sed -i '/<application/i \    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />' noor_app/android/app/src/main/AndroidManifest.xml
+        # إضافة كل الأذونات المطلوبة (موقع، تنبيهات، اهتزاز)
+        sed -i '/<application/i \    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.VIBRATE" />' noor_app/android/app/src/main/AndroidManifest.xml
         cp -r lib noor_app/
         cp pubspec.yaml noor_app/
     - name: Build APK
@@ -31,5 +31,5 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: Noor-Final-App
+        name: Noor-Master-App
         path: noor_app/build/app/outputs/flutter-apk/app-release.apk
