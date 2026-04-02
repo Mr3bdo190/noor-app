@@ -1,3 +1,4 @@
+import 'quran_view_screen.dart';
 import 'package:flutter/material.dart';
 
 class QuranScreen extends StatelessWidget {
@@ -41,7 +42,7 @@ class QuranScreen extends StatelessWidget {
             subtitle: Text('${surah['type']} • آياتها ${surah['verses']}', style: const TextStyle(color: Colors.grey)),
             trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('سيتم فتح صفحات السورة هنا')));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => QuranViewScreen(surahName: surah['name'])));
             },
           ),
         );
