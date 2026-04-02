@@ -20,16 +20,14 @@ jobs:
       run: |
         flutter create --org com.bodadroid noor_app
         
-        # 🚀 ترقية إصدار الكوتلن لـ 1.9.22 عشان كل المكتبات الحديثة تشتغل
-        sed -i "s/ext.kotlin_version = '.*'/ext.kotlin_version = '1.9.22'/g" noor_app/android/build.gradle
-        sed -i "s/1.7.1/1.9.22/g" noor_app/android/settings.gradle
+        # 🚀 إصلاح احترافي لنسخة الكوتلن (بدون أخطاء الأصفار الزائدة)
+        sed -i -E 's/id "org.jetbrains.kotlin.android" version ".*"/id "org.jetbrains.kotlin.android" version "1.9.22"/g' noor_app/android/settings.gradle
+        sed -i -E "s/ext.kotlin_version = '.+'/ext.kotlin_version = '1.9.22'/g" noor_app/android/build.gradle
         
-        # رفع إصدار الأندرويد الأدنى لـ 21
-        sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' noor_app/android/app/build.gradle
-        sed -i 's/minSdkVersion 19/minSdkVersion 21/g' noor_app/android/app/build.gradle
-        sed -i 's/minSdkVersion 16/minSdkVersion 21/g' noor_app/android/app/build.gradle
+        # 🚀 رفع إصدار الأندرويد الأدنى لـ 21 بطريقة آمنة
+        sed -i -E 's/minSdkVersion .*/minSdkVersion 21/g' noor_app/android/app/build.gradle
         
-        # إضافة التصاريح
+        # إضافة التصاريح الشاملة
         sed -i '/<application/i \    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.VIBRATE" />' noor_app/android/app/src/main/AndroidManifest.xml
         
         cp -r lib noor_app/
