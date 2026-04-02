@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'screens/home_screen.dart';
+import 'screens/adhkar_screen.dart';
 
 void main() {
   runApp(const NoorApp());
@@ -14,6 +16,7 @@ class NoorApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
+        scaffoldBackgroundColor: const Color(0xFF0F172A),
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF38BDF8),
           brightness: Brightness.dark,
@@ -23,7 +26,7 @@ class NoorApp extends StatelessWidget {
       ),
       builder: (context, child) {
         return Directionality(
-          textDirection: TextDirection.rtl, // دعم اللغة العربية بالكامل
+          textDirection: TextDirection.rtl,
           child: child!,
         );
       },
@@ -42,13 +45,12 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  // الشاشات الخمسة (هيكل مبدئي)
   final List<Widget> _screens = [
-    const Center(child: Text('الرئيسية - سيتم إضافة المهام والـ AI', style: TextStyle(fontSize: 20))),
-    const Center(child: Text('المصحف الشريف', style: TextStyle(fontSize: 20))),
-    const Center(child: Text('مواقيت الصلاة', style: TextStyle(fontSize: 20))),
-    const Center(child: Text('الأذكار الذكية', style: TextStyle(fontSize: 20))),
-    const Center(child: Text('بوصلة القبلة', style: TextStyle(fontSize: 20))),
+    const HomeScreen(),
+    const Center(child: Text('المصحف الشريف (قريباً)', style: TextStyle(fontSize: 20))),
+    const Center(child: Text('مواقيت الصلاة (قريباً)', style: TextStyle(fontSize: 20))),
+    const AdhkarScreen(),
+    const Center(child: Text('بوصلة القبلة (قريباً)', style: TextStyle(fontSize: 20))),
   ];
 
   @override
