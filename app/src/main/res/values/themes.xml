@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- استخدام ثيم أندرويد الأساسي لتجنب أي مكاتب مفقودة -->
-    <style name="Theme.Noor" parent="android:Theme.DeviceDefault.NoActionBar" />
-</resources>

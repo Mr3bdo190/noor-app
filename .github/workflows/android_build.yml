@@ -1,4 +1,4 @@
-name: Android CI Build
+name: Flutter CI Build
 
 on:
   push:
@@ -11,22 +11,28 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up JDK 17
+    - name: Set up Java
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
         distribution: 'temurin'
-
-    - name: Force Install Gradle 8.4 on Server
-      uses: gradle/actions/setup-gradle@v3
+        java-version: '17'
+        
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
       with:
-        gradle-version: '8.4'
-
-    - name: Build APK Directly (No Wrapper Needed)
-      run: gradle assembleDebug --stacktrace
-
-    - name: Upload APK
+        flutter-version: '3.19.0'
+        channel: 'stable'
+        
+    - name: Build Flutter App
+      run: |
+        flutter create --org com.bodadroid noor_app
+        cp -r lib noor_app/
+        cp pubspec.yaml noor_app/
+        cd noor_app
+        flutter build apk --release
+        
+    - name: Upload Release APK
       uses: actions/upload-artifact@v4
       with:
-        name: Noor-App-Debug
-        path: app/build/outputs/apk/debug/*.apk
+        name: Noor-App-Flutter-Release
+        path: noor_app/build/app/outputs/flutter-apk/app-release.apk
