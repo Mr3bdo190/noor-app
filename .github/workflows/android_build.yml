@@ -3,36 +3,33 @@ name: Flutter CI Build
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Set up Java
-      uses: actions/setup-java@v4
+    - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
-        
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
+    - uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.19.0'
-        channel: 'stable'
-        
-    - name: Build Flutter App
+    - name: Prepare Android Manifest
       run: |
         flutter create --org com.bodadroid noor_app
+        # إضافة تصريح الموقع تلقائياً
+        sed -i '/<application/i \    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />' noor_app/android/app/src/main/AndroidManifest.xml
         cp -r lib noor_app/
         cp pubspec.yaml noor_app/
+    - name: Build APK
+      run: |
         cd noor_app
+        flutter pub get
         flutter build apk --release
-        
-    - name: Upload Release APK
+    - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: Noor-App-Flutter-Release
+        name: Noor-Final-App
         path: noor_app/build/app/outputs/flutter-apk/app-release.apk
