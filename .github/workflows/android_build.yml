@@ -16,11 +16,18 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.19.0'
-    - name: Prepare Android Manifest
+    - name: Prepare Android Project
       run: |
         flutter create --org com.bodadroid noor_app
-        # إضافة كل الأذونات المطلوبة (موقع، تنبيهات، اهتزاز)
+        
+        # الضربة القاضية: رفع إصدار الأندرويد الأدنى لـ 21 عشان مكتبة البوصلة تشتغل
+        sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' noor_app/android/app/build.gradle
+        sed -i 's/minSdkVersion 19/minSdkVersion 21/g' noor_app/android/app/build.gradle
+        sed -i 's/minSdkVersion 16/minSdkVersion 21/g' noor_app/android/app/build.gradle
+        
+        # إضافة تصاريح الموبايل
         sed -i '/<application/i \    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.VIBRATE" />' noor_app/android/app/src/main/AndroidManifest.xml
+        
         cp -r lib noor_app/
         cp pubspec.yaml noor_app/
     - name: Build APK
